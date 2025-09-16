@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Prometheus сам себя
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node Exporter для системных метрик
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # Торговый бот (если добавим метрики)
+  - job_name: 'trading-bot'
+    static_configs:
+      - targets: ['trading-bot:3000']
+    scrape_interval: 30s
+    metrics_path: /metrics
+
+  # Loki для метрик логов
+  - job_name: 'loki'
+    static_configs:
+      - targets: ['loki:3100']
